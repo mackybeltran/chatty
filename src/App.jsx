@@ -17,10 +17,11 @@ class App extends React.Component {
 
     if (event.key === "Enter") {
 
-      const newMessage = {username: "Anonymous", content: event.target.value};
+      const newMessage = {username: document.getElementById('chatbar-username').value, content: event.target.value};
       const messages = this.state.messages.concat(newMessage);
-      this.socket.send(`User ${newMessage.username} said ${newMessage.content}`)
-      this.setState({ messages: messages});
+      this.socket.send(JSON.stringify(newMessage));
+
+      // this.setState({ messages: messages});
     }
   }
 
@@ -33,7 +34,12 @@ componentDidMount() {
   this.socket.onopen = (event) => {
     console.log("Connected to Server");
   }
-
+  this.socket.onmessage = (event) => {
+  let incomingMessage = JSON.parse(event.data);
+  let messageList = this.state.messages.concat(incomingMessage);
+  this.setState({messages: messageList});
+  console.log(document.getElementById('chatbar-username').value)
+}
 }
 
   render() {
