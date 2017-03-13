@@ -20,17 +20,53 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
+
   console.log('Client connected');
+
+   const userCount = {"type": "incomingUserCount",
+                      "count": wss.clients.size}
+          console.log(userCount)
+    wss.broadcast(JSON.stringify(userCount))
+
     ws.on('message', (message) => {
-      // console.log(message)
 
-      let incomingMessage = JSON.parse(message);
-      incomingMessage.id = uuid.v4()
-      console.log(incomingMessage);
-      wss.broadcast(JSON.stringify(incomingMessage));
+      let data = JSON.parse(message);
+      data.id = uuid.v4()
+        switch(data.type) {
+          case "postMessage":
+        // handle incoming message
+            data['type'] = "incomingMessage"
 
+            wss.broadcast(JSON.stringify(data));
+        break;
+          case "postNotification":
+        // handle incoming notification
+            data['type'] = "incomingNotification"
+
+            wss.broadcast(JSON.stringify(data));
+        break;
+      default:
+        // show an error in the console if the message type is unknown
+        throw new Error("Unknown event type " + data.type);
+    }
+});
+
+
+
+
+
+  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  ws.on('close', () => {console.log('Client disconnected')
+    console.log(wss.clients.size)
+       const userCount = {"type": "incomingUserCount",
+                      "count": wss.clients.size}
+
+        wss.broadcast(JSON.stringify(userCount))
 
   });
+});
+
+
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(data )
@@ -40,6 +76,4 @@ wss.broadcast = function broadcast(data) {
 
 
 
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
-});
+
