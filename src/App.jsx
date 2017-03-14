@@ -23,7 +23,7 @@ class App extends React.Component {
 
 
       this.socket.send(JSON.stringify(newMessage));
-
+      event.target.value = ""
       // this.setState({ messages: messages});
     };
   };
@@ -37,9 +37,9 @@ class App extends React.Component {
       const notification = {type: "postNotification",
                             content: `${oldName } changed their name to ${newName}`
                           };
-                       console.log(notification)
-      this.socket.send(JSON.stringify(notification));
 
+      this.socket.send(JSON.stringify(notification));
+      event.target.value = ""
     }
   }
 
