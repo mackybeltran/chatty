@@ -1,3 +1,9 @@
+Chat App for LHL BootCamp
+=====================
+Simple Chat App made as an exercise inusing React and WebSocket.
+Boilerplate Readme below:
+
+
 React Boilerplate
 =====================
 
