@@ -25,7 +25,7 @@ wss.on('connection', (ws) => {
 
    const userCount = {"type": "incomingUserCount",
                       "count": wss.clients.size}
-          console.log(userCount)
+
     wss.broadcast(JSON.stringify(userCount))
 
     ws.on('message', (message) => {
