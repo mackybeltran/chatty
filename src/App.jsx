@@ -21,9 +21,9 @@ class App extends React.Component {
                           username: this.state.currentUsername,
                           content: event.target.value};
 
-      event.target.value = ""
-      this.socket.send(JSON.stringify(newMessage));
 
+      this.socket.send(JSON.stringify(newMessage));
+      event.target.value = ""
       // this.setState({ messages: messages});
     };
   };
@@ -37,9 +37,9 @@ class App extends React.Component {
       const notification = {type: "postNotification",
                             content: `${oldName } changed their name to ${newName}`
                           };
-      event.target.value = ""
-      this.socket.send(JSON.stringify(notification));
 
+      this.socket.send(JSON.stringify(notification));
+      event.target.value = ""
     }
   }
 
