@@ -1,6 +1,9 @@
 Chat App for LHL BootCamp
 =====================
-Simple Chat App made as an exercise inusing React and WebSocket.
+Simple Chat App made as an exercise in using React and WebSocket.
+To Run: npm start on "/chatty_server" to start the server
+Then, npm start on a separate terminal on "/" to use the front end
+
 Boilerplate Readme below:
 
 
